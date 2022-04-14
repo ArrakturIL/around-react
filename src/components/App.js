@@ -150,19 +150,6 @@ function App() {
 
         <Footer />
 
-        <template id="card-template">
-          <article className="element">
-            <button className="element__delete"></button>
-            <img className="element__post-img" alt="" src="_" />
-            <div className="element__post-info">
-              <h2 className="element__post-name"></h2>
-              <div className="element__like-wrapper">
-                <button type="button" className="element__post-like"></button>
-                <span className="element__like-count"></span>
-              </div>
-            </div>
-          </article>
-        </template>
       </div>
     </>
   );
