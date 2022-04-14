@@ -37,51 +37,49 @@ function Main({
   }, []);
 
   return (
-    <>
-      <main className="content">
-        <section className="profile">
-          <div
-            className="profile__avatar"
-            style={{ backgroundImage: `url(${userAvatar})` }}
-          >
-            <div className="profile__avatar-overlay">
-              <button
-                className="profile__avatar-edit"
-                type="button"
-                id="edit-avatar"
-                onClick={onEditAvatarClick}
-              ></button>
-            </div>
-          </div>
-          <div className="profile__info">
-            <h1 className="profile__name">{userName}</h1>
-            <p className="profile__about">{userAbout}</p>
+    <main className="content">
+      <section className="profile">
+        <div
+          className="profile__avatar"
+          style={{ backgroundImage: `url(${userAvatar})` }}
+        >
+          <div className="profile__avatar-overlay">
             <button
+              className="profile__avatar-edit"
               type="button"
-              className="profile__edit-button"
-              onClick={onEditProfileClick}
+              id="edit-avatar"
+              onClick={onEditAvatarClick}
             ></button>
           </div>
-
+        </div>
+        <div className="profile__info">
+          <h1 className="profile__name">{userName}</h1>
+          <p className="profile__about">{userAbout}</p>
           <button
-            onClick={onAddPlaceClick}
             type="button"
-            className="profile__add-button"
+            className="profile__edit-button"
+            onClick={onEditProfileClick}
           ></button>
-        </section>
+        </div>
 
-        <section className="elements">
-          {cards.map((card) => (
-            <Card
-              key={card._id}
-              card={card}
-              onCardClick={onCardClick}
-              onConfirmDeleteClick={onConfirmDeleteClick}
-            />
-          ))}
-        </section>
-      </main>
-    </>
+        <button
+          onClick={onAddPlaceClick}
+          type="button"
+          className="profile__add-button"
+        ></button>
+      </section>
+
+      <section className="elements">
+        {cards.map((card) => (
+          <Card
+            key={card._id}
+            card={card}
+            onCardClick={onCardClick}
+            onConfirmDeleteClick={onConfirmDeleteClick}
+          />
+        ))}
+      </section>
+    </main>
   );
 }
 

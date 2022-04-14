@@ -7,11 +7,9 @@ class Api extends React.Component {
     this._headers = props.headers;
   }
   _customFetch = (url, headers) => {
-    return fetch(url, headers)
-      .then((res) =>
-        res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
-      )
-      .catch((err) => console.log(err));
+    return fetch(url, headers).then((res) =>
+      res.ok ? res.json() : Promise.reject(`Error: ${res.status}`)
+    );
   };
 
   getUserInfo() {
@@ -52,37 +50,37 @@ class Api extends React.Component {
     });
   }
 
-    updateAvatar(avatar) { 
-        return this._customFetch(`${this._baseUrl}/users/me/avatar`, {
-            method: "PATCH",
-            headers: this._headers,
-            body: JSON.stringify({
-            avatar,
-            }),
-        });
-        }
+  updateAvatar(avatar) {
+    return this._customFetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar,
+      }),
+    });
+  }
 
-        likeCard(cardId) {
-            return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-                method: "PUT",
-                headers: this._headers,
-            });
-        }
+  likeCard(cardId) {
+    return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+      method: "PUT",
+      headers: this._headers,
+    });
+  }
 
-        dislikeCard(cardId) {
-            return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-                method: "DELETE",
-                headers: this._headers,
-            });
-        }
+  dislikeCard(cardId) {
+    return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
+  }
 }
 
 const api = new Api({
-    baseUrl: "https://around.nomoreparties.co/v1/group-12",
-    headers: {
-        authorization: "32f9436c-0893-4974-9272-aec5c5f4dcc9",
-        "Content-Type": "application/json",
-    },
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  headers: {
+    authorization: "32f9436c-0893-4974-9272-aec5c5f4dcc9",
+    "Content-Type": "application/json",
+  },
 });
 
 export default api;

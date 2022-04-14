@@ -1,9 +1,4 @@
-// Create the PopupWithForm component and use it for the following popups:
-// "Edit profile", "New place", "Update avatar", "confirm".
-// These popups share a lot of common markup: elements of the external and internal container, the form itself, the title, and two buttons.
-// All the common markup should be placed inside the new component.
-// The titles and the form identifiers (in the form of strings) should be passed from outside the component itself.
-// To do this, add the corresponding title and name props, then substitute their values inside the JSX.
+
 
 function PopupWithForm(props) {
   const { title, name, isOpen, onClose, submitButton, children } = props;
@@ -19,7 +14,7 @@ function PopupWithForm(props) {
 
         <form
           name={name}
-          className={"edit-form edit-form_el_${name}"}
+          className={`edit-form edit-form_el_${name}`}
           action="#"
         >
           <fieldset className="edit-form__input">
