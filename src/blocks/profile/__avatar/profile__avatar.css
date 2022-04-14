@@ -1,0 +1,15 @@
+.profile__avatar {
+    position: relative;
+    background-position: 50%;
+    background-size: cover;
+    min-width: 120px;
+    min-height: 120px;
+    border-radius: 50%;
+    /* background-image: url(../../../images/avatar.jpg); */
+}
+
+@media screen and (max-width: 880px) {
+    .profile__avatar {
+        align-self: center;
+    }
+}
