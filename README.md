@@ -18,4 +18,4 @@ Form validation via JS.
 In additional, the project using Webpack and React.js.
 ---
 
-[Around the U.S.](https://arrakturil.github.io/Around-the-U.S./)
+[Around the U.S.](https://arrakturil.github.io/around-react/)
