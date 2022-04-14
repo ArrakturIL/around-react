@@ -1,6 +1,6 @@
 # Project: Around The U.S.
 
-![Page Logo](./src/images/icon.svg) 
+![Page Logo](public/icon.ico) 
 
 ***
 
