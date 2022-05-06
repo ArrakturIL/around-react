@@ -11,16 +11,12 @@ function Card({
   const currentUser = useContext(CurrentUserContext);
 
   const isOwn = currentUser._id === card.owner._id;
-  // Creating a variable which you'll then set in `style` for the delete button
-  // to be displayed or not.
   const deleteButtonActive = {
     display: isOwn ? "block" : "none",
-  } 
+  };
 
-
- 
   const isLiked = card.likes.some((like) => like._id === currentUser._id);
-  
+
   const likeButtonClassName = `element__post-like${
     isLiked ? " element__post-like_active" : ""
   }`;

@@ -1,7 +1,6 @@
-
-
 function PopupWithForm(props) {
-  const { title, name, isOpen, onClose, submitButton, children } = props;
+  const { title, name, isOpen, onClose, submitButton, children, onSubmit } =
+    props;
 
   return (
     <section className={`popup popup_el_${name} ${isOpen ? `popup_open` : ``}`}>
@@ -16,13 +15,12 @@ function PopupWithForm(props) {
           name={name}
           className={`edit-form edit-form_el_${name}`}
           action="#"
+          onSubmit={onSubmit}
         >
           <fieldset className="edit-form__input">
-           
-              <h2 className="edit-form__heading">{title}</h2>
+            <h2 className="edit-form__heading">{title}</h2>
 
-              {children}
-            
+            {children}
           </fieldset>
           <button className="edit-form__save" type="submit">
             {submitButton}

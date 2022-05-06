@@ -8,6 +8,9 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 
@@ -32,8 +35,6 @@ function App() {
   });
 
   const [cards, setCards] = useState([]);
-  // const [selectedToDeleteCard, setSelectedToDeleteCard] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
 
   /* ========================================================================== */
   /* =                             USE EFFECT                                 = */
@@ -62,13 +63,11 @@ function App() {
   }, []);
 
   /* ========================================================================== */
-  /* =                             FUNCTIONS                                  = */
+  /* =                            API FUNCTIONS                               = */
   /* ========================================================================== */
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
-    
-
     api
       .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
@@ -84,7 +83,6 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    // setIsLoading(true);
     api
       .deleteCard(card._id)
       .then(() => {
@@ -93,14 +91,54 @@ function App() {
           state.filter((currentCard) => currentCard._id !== card._id)
         );
       })
-      .finally(() => {
-        // setIsLoading(false);
-      })
+      .finally(() => {})
       .catch((err) => {
         console.log(`Error: ${err}`);
       });
   }
 
+  function handleUpdateUser(currentUser) {
+    api
+      .updateUserInfo({ name: currentUser.name, about: currentUser.about })
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .finally(() => {})
+      .catch((err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+
+  function handleUpdateAvatar(currentUser) {
+    api
+      .updateAvatar({avatar: currentUser.avatar})
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .finally(() => {})
+      .catch((err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+
+  function handleAddPlaceSubmit(newPlace) {
+    api
+      .createCard(newPlace)
+      .then((newPlace) => {
+        setCards([newPlace, ...cards]);
+        closeAllPopups();
+      })
+      .finally(() => {})
+      .catch((err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+
+  /* ========================================================================== */
+  /* =                            FUNCTIONS                                   = */
+  /* ========================================================================== */
 
   function handleEditProfileClick() {
     setIsEditProfileOpen(true);
@@ -148,94 +186,25 @@ function App() {
           onCardDelete={handleCardDelete}
           cards={cards}
         />
-        <PopupWithForm
-          name="profile"
-          title="Edit profile"
-          submitButton="Save"
+
+        <EditProfilePopup
           isOpen={isEditProfileOpen}
           onClose={closeAllPopups}
-        >
-          <label className="edit-form__label">
-            <input
-              name="name"
-              id="name"
-              type="text"
-              className="edit-form__text-input edit-form__text-input_el_name"
-              placeholder="Name"
-              required
-              minLength="2"
-              maxLength="40"
-            />
-            <span id="name-error" className="edit-form__error"></span>
-          </label>
-          <label className="edit-form__label">
-            <input
-              name="about"
-              id="about"
-              type="text"
-              className="edit-form__text-input edit-form__text-input_el_about"
-              placeholder="About Me"
-              required
-              minLength="2"
-              maxLength="200"
-            />
-            <span id="about-error" className="edit-form__error"></span>
-          </label>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
 
-        <PopupWithForm
-          name="new-place"
-          title="New place"
-          submitButton="Create"
-          isOpen={isAddPlaceOpen}
-          onClose={closeAllPopups}
-        >
-          {" "}
-          <label className="edit-form__label">
-            <input
-              name="title"
-              id="title"
-              type="text"
-              className="edit-form__text-input edit-form__text-input_el_title"
-              placeholder="Title"
-              required
-              minLength="2"
-              maxLength="30"
-            />
-            <span id="title-error" className="edit-form__error"></span>
-          </label>
-          <label className="edit-form__label">
-            <input
-              name="link"
-              id="link"
-              type="url"
-              className="edit-form__text-input edit-form__text-input_el_link"
-              placeholder="Image URL"
-              required
-            />
-            <span id="link-error" className="edit-form__error"></span>
-          </label>
-        </PopupWithForm>
-        <PopupWithForm
-          name="edit-avatar"
-          title="Change avatar"
-          submitButton="Save"
+        <EditAvatarPopup
           isOpen={isEditAvatarOpen}
           onClose={closeAllPopups}
-        >
-          {" "}
-          <label className="edit-form__label">
-            <input
-              name="avatar"
-              id="avatar"
-              type="url"
-              className="edit-form__text-input edit-form__text-input_el_avatar"
-              placeholder="Avatar URL"
-              required
-            />
-            <span id="avatar-error" className="edit-form__error"></span>
-          </label>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+
+        <AddPlacePopup
+          isOpen={isAddPlaceOpen}
+          onClose={closeAllPopups}
+          onAddPlaceSubmit={handleAddPlaceSubmit}
+        />
+
         <PopupWithForm
           name="confirm"
           title="Are you sure?"

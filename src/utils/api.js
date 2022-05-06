@@ -50,7 +50,7 @@ class Api extends React.Component {
     });
   }
 
-  updateAvatar(avatar) {
+  updateAvatar({avatar}) {
     return this._customFetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
@@ -67,14 +67,6 @@ class Api extends React.Component {
     });
   }
 }
-
-//   dislikeCard(cardId) {
-//     return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-//       method: "DELETE",
-//       headers: this._headers,
-//     });
-//   }
-// }
 
 const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/group-12",
