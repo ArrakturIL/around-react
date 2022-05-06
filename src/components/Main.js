@@ -1,6 +1,13 @@
-import api from "../utils/api";
-import { useState, useEffect } from "react";
+/* ========================================================================== */
+/* =                             IMPORTS                                    = */
+/* ========================================================================== */
+import { useContext } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Card from "./Card";
+
+/* ========================================================================== */
+/* =                          MAIN COMPONENT                                = */
+/* ========================================================================== */
 
 function Main({
   onEditProfileClick,
@@ -8,40 +15,18 @@ function Main({
   onEditAvatarClick,
   onCardClick,
   onConfirmDeleteClick,
+  onCardDelete,
+  onCardLike,
+  cards
 }) {
-  const [cards, setCards] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [userAbout, setUserAbout] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setUserName(userData.name);
-        setUserAbout(userData.about);
-        setUserAvatar(userData.avatar);
-      })
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-      });
-
-    api
-      .getInitialCards()
-      .then((cardsData) => {
-        setCards(cardsData);
-      })
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-      });
-  }, []);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="content">
       <section className="profile">
         <div
           className="profile__avatar"
-          style={{ backgroundImage: `url(${userAvatar})` }}
+          style={{ backgroundImage: `url(${currentUser.avatar})` }}
         >
           <div className="profile__avatar-overlay">
             <button
@@ -53,8 +38,8 @@ function Main({
           </div>
         </div>
         <div className="profile__info">
-          <h1 className="profile__name">{userName}</h1>
-          <p className="profile__about">{userAbout}</p>
+          <h1 className="profile__name">{currentUser.name}</h1>
+          <p className="profile__about">{currentUser.about}</p>
           <button
             type="button"
             className="profile__edit-button"
@@ -76,6 +61,8 @@ function Main({
             card={card}
             onCardClick={onCardClick}
             onConfirmDeleteClick={onConfirmDeleteClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
           />
         ))}
       </section>

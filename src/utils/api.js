@@ -60,20 +60,21 @@ class Api extends React.Component {
     });
   }
 
-  likeCard(cardId) {
+  changeLikeCardStatus(cardId, isLiked) {
     return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: this._headers,
-    });
-  }
-
-  dislikeCard(cardId) {
-    return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
+      method: `${isLiked ? "DELETE" : "PUT"}`,
       headers: this._headers,
     });
   }
 }
+
+//   dislikeCard(cardId) {
+//     return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+//       method: "DELETE",
+//       headers: this._headers,
+//     });
+//   }
+// }
 
 const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/group-12",
