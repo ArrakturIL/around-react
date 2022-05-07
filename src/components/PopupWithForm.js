@@ -1,4 +1,14 @@
-function PopupWithForm({ title, name, isOpen, onClose, submitButton, children, onSubmit }) {
+function PopupWithForm({
+  title,
+  name,
+  isOpen,
+  onClose,
+  submitButton,
+  children,
+  onSubmit,
+  isLoading,
+  loadingButton,
+}) {
   return (
     <section className={`popup popup_el_${name} ${isOpen ? `popup_open` : ``}`}>
       <div className="popup__container">
@@ -20,7 +30,7 @@ function PopupWithForm({ title, name, isOpen, onClose, submitButton, children, o
             {children}
           </fieldset>
           <button className="edit-form__save" type="submit">
-            {submitButton}
+            {isLoading ? loadingButton : submitButton}
           </button>
         </form>
       </div>
