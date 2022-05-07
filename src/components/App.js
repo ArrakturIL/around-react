@@ -7,7 +7,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
-import PopupWithForm from "./PopupWithForm";
+import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
@@ -26,15 +26,15 @@ function App() {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isAddPlaceOpen, setIsAddPlaceOpen] = useState(false);
   const [isEditAvatarOpen, setIsEditAvatarOpen] = useState(false);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [cardPopup, setCardPopup] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({
     name: "",
     about: "",
     avatar: "",
   });
-
   const [cards, setCards] = useState([]);
+  const [selectedToDeleteCard, setSelectedToDeleteCard] = useState(null);
 
   /* ========================================================================== */
   /* =                             USE EFFECT                                 = */
@@ -91,7 +91,6 @@ function App() {
           state.filter((currentCard) => currentCard._id !== card._id)
         );
       })
-      .finally(() => {})
       .catch((err) => {
         console.log(`Error: ${err}`);
       });
@@ -104,7 +103,6 @@ function App() {
         setCurrentUser(userData);
         closeAllPopups();
       })
-      .finally(() => {})
       .catch((err) => {
         console.log(`Error: ${err}`);
       });
@@ -112,12 +110,11 @@ function App() {
 
   function handleUpdateAvatar(currentUser) {
     api
-      .updateAvatar({avatar: currentUser.avatar})
+      .updateAvatar({ avatar: currentUser.avatar })
       .then((userData) => {
         setCurrentUser(userData);
         closeAllPopups();
       })
-      .finally(() => {})
       .catch((err) => {
         console.log(`Error: ${err}`);
       });
@@ -130,11 +127,11 @@ function App() {
         setCards([newPlace, ...cards]);
         closeAllPopups();
       })
-      .finally(() => {})
       .catch((err) => {
         console.log(`Error: ${err}`);
       });
   }
+
 
   /* ========================================================================== */
   /* =                            FUNCTIONS                                   = */
@@ -152,8 +149,9 @@ function App() {
     setIsEditAvatarOpen(true);
   }
 
-  function handleConfirmClick() {
-    setIsConfirmOpen(true);
+  function handleConfirmClick(card) {
+    setSelectedToDeleteCard(card);
+    setIsConfirmDeletePopupOpen(true);
   }
 
   function handleCardClick(card) {
@@ -164,7 +162,7 @@ function App() {
     setIsEditProfileOpen(false);
     setIsAddPlaceOpen(false);
     setIsEditAvatarOpen(false);
-    setIsConfirmOpen(false);
+    setIsConfirmDeletePopupOpen(false);
     setCardPopup(undefined);
   }
 
@@ -205,13 +203,13 @@ function App() {
           onAddPlaceSubmit={handleAddPlaceSubmit}
         />
 
-        <PopupWithForm
-          name="confirm"
-          title="Are you sure?"
-          submitButton="Yes"
-          isOpen={isConfirmOpen}
+        <ConfirmDeletePopup
+          isOpen={isConfirmDeletePopupOpen}
           onClose={closeAllPopups}
+          onCardDelete={handleCardDelete}
+          card={selectedToDeleteCard}
         />
+        
         <ImagePopup card={cardPopup} onClose={closeAllPopups} />
 
         <Footer />
